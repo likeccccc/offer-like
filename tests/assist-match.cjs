@@ -1,0 +1,13 @@
+const fs = require('node:fs');
+const vm = require('node:vm');
+const assert = require('node:assert/strict');
+const source = fs.readFileSync(require('node:path').join(__dirname, '../content/content.js'), 'utf8');
+const ctx = {LOCAL_KEYS:{education:{'入学时间':'enrollTime'}}};
+vm.createContext(ctx);
+vm.runInContext(source.slice(source.indexOf('  function assistMatchScore'), source.indexOf('  function highlightAssistTarget')),ctx);
+assert.equal(ctx.assistMatchScore('姓名 *','姓名','name','general'),100);
+assert.ok(ctx.assistMatchScore('请输入部门名称','部门','department','work') > 0);
+assert.ok(ctx.assistMatchScore('入学时间','开始时间','enrollTime','education') > 0);
+assert.equal(ctx.assistMatchScore('公司名称','姓名','name','general'),0);
+assert.equal(ctx.assistMatchScore('','姓名','name','general'),0);
+console.log('PASS: assist matching handles labels, aliases, dates and unrelated fields');

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>OFFER Like</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bean: #001410;
+      --echo: #eae9e7;
+      --maroon: #57000b;
+      --grey: #808183;
+      --steel: #b2b3b6;
+      --cinnabar: #e34525;
+      --ink-2: #4c514f;
+      --ink-3: #6f7175;
+      --line: rgba(0, 20, 16, .12);
+      --line-2: rgba(0, 20, 16, .20);
+      --r-sm: 8px;
+      --r: 12px;
+      --sh-1: 0 1px 2px rgba(0,20,16,.05), 0 3px 10px rgba(0,20,16,.05);
+      --sh-2: 0 2px 6px rgba(0,20,16,.06), 0 12px 28px rgba(0,20,16,.08);
+      --font: "Inter", "Noto Sans SC", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      width: 324px;
+      margin: 0;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--bean);
+      background: #ffffff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------- 头部 ---------- */
+    .head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 16px;
+      background: linear-gradient(165deg, #0d2c24 0%, #001410 100%);
+      color: var(--echo);
+    }
+    .head-logo { width: 78px; height: auto; display: block; flex: 0 0 auto; }
+    .head .title { font-size: 13.5px; font-weight: 700; letter-spacing: .2px; }
+
+    /* ---------- 身份卡 ---------- */
+    .user {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .avatar {
+      width: 44px; height: 44px; flex: 0 0 auto;
+      border-radius: var(--r);
+      background: linear-gradient(160deg, #0d2c24, var(--bean));
+      color: var(--echo);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800;
+      box-shadow: var(--sh-1);
+    }
+    .name { font-size: 15px; font-weight: 700; letter-spacing: -.2px; word-break: break-all; }
+    .sub { font-size: 10.5px; color: var(--ink-3); letter-spacing: 2px; margin-top: 3px; }
+
+    /* ---------- 进度 ---------- */
+    .card { padding: 16px; border-bottom: 1px solid var(--line); }
+    .pg-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+    .pg-head span { font-size: 11.5px; font-weight: 700; color: var(--ink-2); letter-spacing: .3px; }
+    .pg-head b { font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
+    .bar {
+      height: 9px; background: #e2e1df; border: 1px solid var(--line);
+      border-radius: 99px; overflow: hidden;
+    }
+    .bar i {
+      display: block; height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--cinnabar), #c8381a);
+      transition: width .35s cubic-bezier(.25,.8,.3,1);
+    }
+    .pg-sub { font-size: 11px; color: var(--ink-3); margin-top: 8px; font-variant-numeric: tabular-nums; }
+
+    /* ---------- 按钮 ---------- */
+    .btn {
+      border: 1px solid var(--line-2);
+      background: linear-gradient(180deg, #ffffff, #f3f1ec);
+      color: var(--bean);
+      padding: 10px 14px; font-size: 12.5px; font-weight: 600; border-radius: var(--r-sm);
+      cursor: pointer; box-shadow: var(--sh-1);
+      transition: transform .16s, box-shadow .16s, filter .16s;
+      font-family: inherit; letter-spacing: .2px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: var(--sh-2); }
+    .btn:active { transform: translateY(0); box-shadow: var(--sh-1); }
+    .btn-primary {
+      background: linear-gradient(180deg, #e04a28, #c8371a);
+      color: #fff; border-color: transparent;
+      box-shadow: 0 3px 10px rgba(211,61,31,.24);
+    }
+    .btn-primary:hover { filter: brightness(1.05); box-shadow: 0 6px 16px rgba(211,61,31,.32); }
+
+    .main-act { padding: 16px; }
+
+    /* ---------- AI 配置（折叠） ---------- */
+    .details { border-top: 1px solid var(--line); }
+    .details summary {
+      list-style: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 13px 16px;
+      font-size: 12.5px; font-weight: 700; color: var(--ink-2); letter-spacing: .3px;
+      user-select: none;
+    }
+    .details summary::-webkit-details-marker { display: none; }
+    .details summary .chev { color: var(--grey); transition: transform .2s; font-size: 11px; }
+    .details[open] summary .chev { transform: rotate(180deg); }
+    .details[open] summary { border-bottom: 1px solid var(--line); }
+
+    .dbody { padding: 14px 16px 16px; }
+    .field { margin-bottom: 11px; }
+    .field label { display: block; font-weight: 700; margin-bottom: 5px; font-size: 11.5px; color: var(--ink-2); }
+    .field select, .field input {
+      width: 100%; padding: 9px 11px;
+      border: 1px solid var(--line-2); border-radius: var(--r-sm);
+      font-size: 12.5px; background: #fff; font-family: inherit; color: var(--bean);
+      transition: box-shadow .18s, border-color .18s;
+    }
+    .field select:focus, .field input:focus {
+      outline: none; border-color: var(--cinnabar);
+      box-shadow: 0 0 0 3px rgba(227,69,37,.16);
+    }
+    .hint { font-size: 11px; color: var(--ink-3); margin-top: 5px; line-height: 1.5; }
+    .row { display: flex; gap: 8px; margin-top: 14px; }
+    .row .btn { flex: 1; }
+    .status { margin-top: 10px; font-size: 11.5px; min-height: 16px; color: #1c7a52; font-weight: 600; line-height: 1.5; }
+    .status.err { color: var(--maroon); }
+    a { color: var(--cinnabar); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="head">
+    <img class="head-logo" src="../assets/logo-white.png" alt="OFFER Like">
+    <span class="title">个人资料库</span>
+  </header>
+
+  <section class="user">
+    <div class="avatar" id="ppAvatar">你</div>
+    <div style="min-width:0">
+      <div class="name" id="ppName">你的名字</div>
+      <div class="sub">OFFER 包</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="pg-head">
+      <span>资料完整度</span>
+      <b id="ppPct">0%</b>
+    </div>
+    <div class="bar"><i id="ppBar"></i></div>
+    <div class="pg-sub" id="ppSub">0 / 0 项已填</div>
+  </section>
+
+  <div class="main-act">
+    <button class="btn btn-primary" id="resumeBtn" style="width:100%">打开档案盒（管理简历）</button>
+  </div>
+
+  <details class="details">
+    <summary><span>AI 配置</span><span class="chev">▾</span></summary>
+    <div class="dbody">
+      <div class="field">
+        <label>AI 服务商</label>
+        <select id="provider">
+          <option value="deepseek">DeepSeek</option>
+          <option value="qwen">千问（阿里云百炼）</option>
+          <option value="kimi">Kimi（月之暗面）</option>
+          <option value="doubao">豆包（字节）</option>
+          <option value="custom">自定义（OpenAI 兼容）</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>API Key</label>
+        <input type="password" id="apiKey" placeholder="sk-...">
+        <div class="hint">填写所选服务商的 API Key。千问默认使用北京地域的 Key。</div>
+      </div>
+      <div class="field" id="modelField">
+        <label>模型（留空用默认）</label>
+        <input type="text" id="model" placeholder="deepseek-chat">
+      </div>
+      <div class="field" id="endpointField">
+        <label>接口地址</label>
+        <input type="text" id="endpoint" placeholder="https://api.deepseek.com/v1">
+      </div>
+      <div class="row">
+        <button class="btn btn-primary" id="saveBtn">保存</button>
+        <button class="btn" id="testBtn">测试连接</button>
+      </div>
+      <div class="status" id="status"></div>
+    </div>
+  </details>
+
+  <script src="../shared/ai-config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

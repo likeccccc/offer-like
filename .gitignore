@@ -1,0 +1,10 @@
+backups/
+项目交接文档.md
+.env
+.env.*
+!.env.example
+*.log
+node_modules/
+.DS_Store
+Thumbs.db
+*.zip
